@@ -6,8 +6,9 @@ let
     };
 in {
   imports = [
+    ./nanopi-r4s.nix
     ./baseline.nix
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
+    <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
   ];
 
   # building with emulation
@@ -38,7 +39,7 @@ in {
   # root autologin etc
   users.users.root.password = "root";
   services.openssh.permitRootLogin = lib.mkDefault "yes";
-  services.mingetty.autologinUser = lib.mkDefault "root";
+  services.getty.autologinUser = lib.mkDefault "root";
 
   #users.extraUsers.root.openssh.authorizedKeys.keys = [
   #   ""
