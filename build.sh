@@ -16,7 +16,9 @@ dd if=$OUT/u-boot.itb of=$OUT/$IMG conv=fsync,notrunc bs=512 seek=16384
 
 #sfdisk --dump $OUT/$IMG
 
+echo "Image built successfully?!"
+echo ""
 echo "Now burn the image with:"
 echo "dd if=$OUT/$IMG of=/dev/mydev iflag=direct oflag=direct bs=16M status=progress"
 echo "or compress it with:"
-echo "tar -cJf nanopi-nixos-$(date --rfc-3339=date).img.xz $OUT/$IMG"
+echo "tar -c -I 'xz -9 -T0' -f nanopi-nixos-$(date --rfc-3339=date).img.xz $OUT/$IMG"
