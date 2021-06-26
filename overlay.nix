@@ -11,7 +11,8 @@ let
 
   linux-nanopi-r4s = self.callPackage ./kernel.nix
   {
-    kernelPatches = [ r4s-dts r4s-doc ];
+    kernelPatches = [ ];
+    #kernelPatches = [ r4s-dts r4s-doc ];
   };
 
 in
