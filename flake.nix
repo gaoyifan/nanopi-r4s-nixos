@@ -25,7 +25,17 @@
       packages = forAllSystems (_: {
         sdImage = nixosR4S.config.system.build.sdImage;
         uboot = pkgsAarch64.uboot_NanopiR4S;
+        image = pkgsAarch64.runCommand "nanopi-r4s-sd-image" { } ''
+          mkdir -p "$out"
+          img=$(ls ${nixosR4S.config.system.build.sdImage}/sd-image/*.img)
+          cp "$img" "$out/nanopi-r4s.img"
+          chmod u+w "$out/nanopi-r4s.img"
+          dd if=${pkgsAarch64.uboot_NanopiR4S}/idbloader.img of=$out/nanopi-r4s.img conv=fsync,notrunc bs=512 seek=64
+          dd if=${pkgsAarch64.uboot_NanopiR4S}/u-boot.itb of=$out/nanopi-r4s.img conv=fsync,notrunc bs=512 seek=16384
+        '';
       });
+
+      defaultPackage = forAllSystems (system: self.packages.${system}.image);
 
       nixosConfigurations.nanopi-r4s = nixosR4S;
     };
