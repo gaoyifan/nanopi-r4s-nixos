@@ -3,6 +3,8 @@
   # !mui importante!
   hardware.enableRedistributableFirmware = true;
 
+  system.stateVersion = "25.11";
+
   boot.loader = {
     grub.enable = false;
   };
@@ -20,7 +22,7 @@
 
   # root autologin etc
   users.users.root.password = "root";
-  services.openssh.permitRootLogin = lib.mkDefault "yes";
+  services.openssh.settings.PermitRootLogin = lib.mkDefault "yes";
   # ??
   #services.mingetty.autologinUser = lib.mkDefault "root";
   services.getty.autologinUser = lib.mkDefault "root";

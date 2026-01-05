@@ -1,2 +1,7 @@
-result/
-out/
+/.direnv
+/.envrc
+/out
+/result
+/result-*
+/*.img
+/*.img.xz

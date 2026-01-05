@@ -1,14 +1,18 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nixpkgsPath ? <nixpkgs>, ... }:
 let
   extlinux-conf-builder =
-    import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
+    import "${nixpkgsPath}/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix" {
+      lib = lib;
       pkgs = pkgs.buildPackages;
     };
 in {
   imports = [
-    ./nanopi-r4s.nix
     ./baseline.nix
-    <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
+    "${nixpkgsPath}/nixos/modules/installer/sd-card/sd-image.nix"
+  ];
+
+  nixpkgs.overlays = [
+    (import ./overlay.nix)
   ];
 
   # building with emulation
@@ -38,7 +42,7 @@ in {
 
   # root autologin etc
   users.users.root.password = "root";
-  services.openssh.permitRootLogin = lib.mkDefault "yes";
+  services.openssh.settings.PermitRootLogin = lib.mkDefault "yes";
   services.getty.autologinUser = lib.mkDefault "root";
 
   #users.extraUsers.root.openssh.authorizedKeys.keys = [
